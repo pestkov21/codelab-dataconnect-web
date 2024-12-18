@@ -17,7 +17,7 @@
 # TODO: Complete UpsertUser
 
 # Add a movie to the user's favorites list
-# TODO: Complete UpsertUser
+# TODO: Complete AddFavoritedMovie
 
 # Remove a movie from the user's favorites list
 # TODO: Complete DeleteFavoritedMovie
