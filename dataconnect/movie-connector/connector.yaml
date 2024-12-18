@@ -13,7 +13,6 @@
  # limitations under the License.
 
 connectorId: movie-connector
-authMode: PUBLIC
 generate:
   javascriptSdk:
     package: "@movie/dataconnect"
