@@ -16,7 +16,7 @@
 
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { MdFavorited, MdFavoritedBorder, MdStar } from "react-icons/md";
+import { MdFavorite, MdFavoriteBorder, MdStar } from "react-icons/md";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { AuthContext } from "@/lib/firebase";
 import {
@@ -113,9 +113,9 @@ export default function MovieCard({
               onClick={handleRecommendedToggle}
             >
               {isRecommendedd ? (
-                <MdFavorited size={20} />
+                <MdFavorite size={20} />
               ) : (
-                <MdFavoritedBorder size={20} />
+                <MdFavoriteBorder size={20} />
               )}
             </button>
           </div>

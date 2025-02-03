@@ -16,7 +16,7 @@
 
 import { useContext, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { MdFavorited, MdFavoritedBorder, MdStar } from "react-icons/md";
+import { MdFavorite, MdFavoriteBorder, MdStar } from "react-icons/md";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { AuthContext } from "@/lib/firebase";
 import NotFound from "./NotFound";
@@ -175,9 +175,9 @@ export default function MoviePage() {
               onClick={handleRecommendedToggle}
             >
               {isRecommendedd ? (
-                <MdFavorited size={24} />
+                <MdFavorite size={24} />
               ) : (
-                <MdFavoritedBorder size={24} />
+                <MdFavoriteBorder size={24} />
               )}
             </button>
           </div>

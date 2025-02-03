@@ -13,52 +13,20 @@
  # limitations under the License.
  #
 
-# Create or update the current authenticated user
-mutation UpsertUser($username: String!) @auth(level: USER) {
-  user_upsert(
-    data: {
-      id_expr: "auth.uid"
-      username: $username
-    }
-  )
-}
+# Upsert (update or insert) a user based on their username
+# TODO: Complete UpsertUser
 
 # Add a movie to the user's recommended list
-mutation AddRecommendedMovie($movieId: UUID!) @auth(level: USER) {
-  query @redact {
-    review(
-      key: { userId_expr: "auth.uid", movieId: $movieId }
-    ) @check(message: "You must review the movie before marking it as 'Recommended'.") {
-      rating @check(expr: "this >= 3", message: "You can only mark movies you rated at least 3 stars as 'Recommended'.")
-    }
-  }
-  recommended_movie_upsert(data: { userId_expr: "auth.uid", movieId: $movieId })
-}
+# TODO: Complete AddRecommendedMovie
 
 # Remove a movie from the user's recommended list
-mutation DeleteRecommendedMovie($movieId: UUID!) @auth(level: USER) {
-  recommended_movie_delete(key: { userId_expr: "auth.uid", movieId: $movieId })
-}
-
+# TODO: Complete DeleteRecommendedMovie
 
 # Add a review for a movie
-mutation AddReview($movieId: UUID!, $rating: Int!, $reviewText: String!)
-@auth(level: USER) {
-  review_insert(
-    data: {
-      userId_expr: "auth.uid"
-      movieId: $movieId
-      rating: $rating
-      reviewText: $reviewText
-      reviewDate_date: { today: true }
-    }
-  )
-}
+# TODO: Complete AddReview
 
 # Delete a user's review for a movie
-mutation DeleteReview($movieId: UUID!) @auth(level: USER) {
-  review_delete(key: { userId_expr: "auth.uid", movieId: $movieId })
-}
+# TODO: Complete DeleteReview
 
 
 
