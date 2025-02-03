@@ -1,8 +1,8 @@
-const { validateArgs } = require('firebase/data-connect');
+const { , validateArgs } = require('firebase/data-connect');
 
 const connectorConfig = {
   connector: 'movie-connector',
-  service: 'your-service-name',
+  service: 'your-service-id',
   location: 'us-central1'
 };
 exports.connectorConfig = connectorConfig;
