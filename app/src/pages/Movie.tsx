@@ -22,9 +22,9 @@ import { AuthContext } from "@/lib/firebase";
 import NotFound from "./NotFound";
 import {
   handleGetMovieById,
-  handleGetIfFavoritedMovie,
-  handleAddFavoritedMovie,
-  handleDeleteFavoritedMovie,
+  handleGetIfRecommendedMovie,
+  handleAddRecommendedMovie,
+  handleDeleteRecommendedMovie,
   handleAddReview,
   handleDeleteReview,
   fetchSimilarMovies,
@@ -37,7 +37,7 @@ export default function MoviePage() {
 
   const [loading, setLoading] = useState(true);
   const [authUser, setAuthUser] = useState<User | null>(null);
-  const [isFavorited, setIsFavorited] = useState(false);
+  const [isRecommendedd, setIsRecommendedd] = useState(false);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
 
@@ -45,12 +45,12 @@ export default function MoviePage() {
   const [userReview, setUserReview] = useState(null);
   const [similarMovies, setSimilarMovies] = useState([]);
 
-  // Fetch the movie details and check if it's favorited when the user is authenticated
+  // Fetch the movie details and check if it's recommendedd when the user is authenticated
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setAuthUser(user);
-        handleGetIfFavoritedMovie(id).then(setIsFavorited);
+        handleGetIfRecommendedMovie(id).then(setIsRecommendedd);
       }
     });
 
@@ -82,21 +82,21 @@ export default function MoviePage() {
     }
   }, [id, authUser]);
 
-  // Toggle favorite status for the movie
-  const handleFavoriteToggle = async (e: React.MouseEvent) => {
+  // Toggle recommended status for the movie
+  const handleRecommendedToggle = async (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
     if (!authUser) return;
 
     try {
-      if (isFavorited) {
-        await handleDeleteFavoritedMovie(id);
+      if (isRecommendedd) {
+        await handleDeleteRecommendedMovie(id);
       } else {
-        await handleAddFavoritedMovie(id);
+        await handleAddRecommendedMovie(id);
       }
-      setIsFavorited(!isFavorited);
+      setIsRecommendedd(!isRecommendedd);
     } catch (error) {
-      console.error("Error updating favorite status:", error);
+      console.error("Error updating recommended status:", error);
     }
   };
 
@@ -171,10 +171,10 @@ export default function MoviePage() {
           <div className="mt-4 flex space-x-4">
             <button
               className="flex items-center justify-center p-1 text-red-500 hover:text-red-600 transition-colors duration-200"
-              aria-label="Favorite"
-              onClick={handleFavoriteToggle}
+              aria-label="Recommended"
+              onClick={handleRecommendedToggle}
             >
-              {isFavorited ? (
+              {isRecommendedd ? (
                 <MdFavorite size={24} />
               ) : (
                 <MdFavoriteBorder size={24} />
@@ -283,7 +283,7 @@ export default function MoviePage() {
         {similarMovies && similarMovies.length > 1 ? (
           <div className="my-10">
             <h2 className="text-2xl font-bold mb-2">Similar Movies</h2>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid gap-2 grid-cols-2">
               {similarMovies.map((similarMovie) => (
                 <MovieCard
                   id={similarMovie.id}

@@ -13,13 +13,13 @@
  # limitations under the License.
 
 specVersion: "v1alpha"
-serviceId: "your-service-id"
+serviceId: "firebase-web-quickstart"
 location: "us-central1"
 schema:
   source: "./schema"
   datasource:
     postgresql:
-      database: "your-database"
+      database: "movies"
       cloudSql:
-        instanceId: "your-instance-id"
+        instanceId: "movies"
 connectorDirs: ["./movie-connector"]

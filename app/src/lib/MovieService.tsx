@@ -14,84 +14,156 @@
  * limitations under the License.
  */
 
-// import { listMovies, ListMoviesData, OrderDirection } from "@movie/dataconnect";
-// import { getMovieById, GetMovieByIdData } from "@movie/dataconnect";
-// import { GetActorByIdData, getActorById } from "@movie/dataconnect";
+import { listMovies, ListMoviesData, OrderDirection } from "@movie/dataconnect";
+import { getMovieById } from "@movie/dataconnect";
+import { GetActorByIdData, getActorById } from "@movie/dataconnect";
 
-// import { upsertUser } from "@movie/dataconnect";
-// import { getCurrentUser, GetCurrentUserData } from "@movie/dataconnect";
+import { upsertUser } from "@movie/dataconnect";
+import { getCurrentUser, GetCurrentUserData } from "@movie/dataconnect";
 
-// import { addFavoritedMovie, deleteFavoritedMovie, getIfFavoritedMovie } from "@movie/dataconnect";
-// import { addReview, deleteReview } from "@movie/dataconnect";
+import { addRecommendedMovie, deleteRecommendedMovie, getIfRecommendedMovie } from "@movie/dataconnect";
+import { addReview, deleteReview } from "@movie/dataconnect";
 
-// import { searchAll, SearchAllData } from "@movie/dataconnect";
+import { searchAll, SearchAllData } from "@movie/dataconnect";
 
-// import {
-//   searchMovieDescriptionUsingL2similarity,
-//   SearchMovieDescriptionUsingL2similarityData,
-// } from "@movie/dataconnect";
+import {
+  searchMovieDescriptionUsingL2similarity,
+  SearchMovieDescriptionUsingL2similarityData,
+} from "@movie/dataconnect";
 
 import { onAuthStateChanged, User } from "firebase/auth";
 
 // Fetch top-rated movies
 export const handleGetTopMovies = async (
   limit: number
-): Promise<any[]> => {
-  return [];
+): Promise<ListMoviesData["movies"] | null> => {
+  try {
+    const response = await listMovies({
+      orderByRating: OrderDirection.DESC,
+      limit,
+    });
+    return response.data.movies;
+  } catch (error) {
+    console.error("Error fetching top movies:", error);
+    return null;
+  }
 };
 
 // Fetch latest movies
 export const handleGetLatestMovies = async (
-  limit: number
-): Promise<any[]> => {
-  return [];
+  limit: number,
+  offset: number
+): Promise<ListMoviesData["movies"] | null> => {
+  try {
+    const response = await listMovies({
+      orderByReleaseYear: OrderDirection.DESC,
+      limit,
+      offset
+    });
+    return response.data.movies;
+  } catch (error) {
+    console.error("Error fetching latest movies:", error);
+    return null;
+  }
 };
+
 
 // Fetch movie details by ID
 export const handleGetMovieById = async (
   movieId: string
-): Promise<any | null> => {
-  return null;
+) => {
+  try {
+    const response = await getMovieById({ id: movieId });
+    if (response.data.movie) {
+      return response.data.movie;
+    }
+    return null;
+  } catch (error) {
+    console.error("Error fetching movie:", error);
+    return null;
+  }
 };
 
-
-// Fetch actor details by ID
+// Calling generated SDK for GetActorById
 export const handleGetActorById = async (
   actorId: string
-): Promise<any | null> => {
-  return null;
+): Promise<GetActorByIdData["actor"] | null> => {
+  try {
+    const response = await getActorById({ id: actorId });
+    if (response.data.actor) {
+      return response.data.actor;
+    }
+    return null;
+  } catch (error) {
+    console.error("Error fetching actor:", error);
+    return null;
+  }
 };
 
-// Updates user table when user signs in
-export const handleAuthStateChange = (auth: any, setUser: (user: User | null) => void) => {
-  return () => {};
+// Handle user authentication state changes and upsert user
+export const handleAuthStateChange = (
+  auth,
+  setUser: (user: User | null) => void
+) => {
+  return onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      setUser(user);
+      const username = user.email?.split("@")[0] || "anon";
+      await upsertUser({ username });
+    } else {
+      setUser(null);
+    }
+  });
 };
 
 // Fetch current user profile
-export const handleGetCurrentUser = async (): Promise<any | null> => {
-  return null;
+export const handleGetCurrentUser = async (): Promise<
+  GetCurrentUserData["user"] | null
+> => {
+  try {
+    const response = await getCurrentUser();
+    return response.data.user;
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    return null;
+  }
 };
 
-
-// Add a movie to user's favorites
-export const handleAddFavoritedMovie = async (
+// Add a movie to user's recommendeds
+export const handleAddRecommendedMovie = async (
   movieId: string
 ): Promise<void> => {
-  return;
+  try {
+    await addRecommendedMovie({ movieId });
+  } catch (error) {
+    console.error("Error adding movie to recommendeds:", error);
+    throw error;
+  }
 };
 
-// Remove a movie from user's favorites
-export const handleDeleteFavoritedMovie = async (
+// Remove a movie from user's recommendeds
+export const handleDeleteRecommendedMovie = async (
   movieId: string
 ): Promise<void> => {
-  return;
+  try {
+    await deleteRecommendedMovie({ movieId });
+  } catch (error) {
+    console.error("Error removing movie from recommendeds:", error);
+    throw error;
+  }
 };
 
-// Check if the movie is favorited by the user
-export const handleGetIfFavoritedMovie = async (
+// Check if the movie is recommendedd by the user
+export const handleGetIfRecommendedMovie = async (
   movieId: string
 ): Promise<boolean> => {
-  return false;
+  try {
+    const response = await getIfRecommendedMovie({ movieId });
+    return !!response.data.recommended_movie;
+  } catch (error) {
+    console.error("Error checking if movie is recommendedd:", error);
+    return false;
+  }
 };
 
 // Add a review to a movie
@@ -100,12 +172,22 @@ export const handleAddReview = async (
   rating: number,
   reviewText: string
 ): Promise<void> => {
-  return;
+  try {
+    await addReview({ movieId, rating, reviewText });
+  } catch (error) {
+    console.error("Error adding review:", error);
+    throw error;
+  }
 };
 
 // Delete a review from a movie
 export const handleDeleteReview = async (movieId: string): Promise<void> => {
-  return;
+  try {
+    await deleteReview({ movieId });
+  } catch (error) {
+    console.error("Error deleting review:", error);
+    throw error;
+  }
 };
 
 // Function to perform the search using the query and filters
@@ -116,20 +198,54 @@ export const handleSearchAll = async (
   minRating: number,
   maxRating: number,
   genre: string
-): Promise<any> => {
-  return null;
+): Promise<SearchAllData | null> => {
+  try {
+    const response = await searchAll({
+      input: searchQuery,
+      minYear,
+      maxYear,
+      minRating,
+      maxRating,
+      genre,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error performing search:", error);
+    return null;
+  }
 };
 
 
 // Perform vector-based search for movies based on description
 export const searchMoviesByDescription = async (
   query: string
-): Promise<any[]> => {
-  return [];
+): Promise<
+  | SearchMovieDescriptionUsingL2similarityData["movies_descriptionEmbedding_similarity"]
+  | null
+> => {
+  try {
+    const response = await searchMovieDescriptionUsingL2similarity({ query });
+    return response.data.movies_descriptionEmbedding_similarity;
+  } catch (error) {
+    console.error("Error fetching movie descriptions:", error);
+    return null;
+  }
 };
 
+
+
 export const fetchSimilarMovies = async (
-  description: string
-): Promise<any[]> => {
-  return [];
+  query: string
+): Promise<
+| SearchMovieDescriptionUsingL2similarityData["movies_descriptionEmbedding_similarity"]
+| null
+> => {
+try {
+  const response = await searchMovieDescriptionUsingL2similarity({ query });
+  return response.data.movies_descriptionEmbedding_similarity;
+} catch (error) {
+  console.error("Error fetching movie descriptions:", error);
+  return null;
+}
 };

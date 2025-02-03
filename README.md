@@ -54,7 +54,7 @@ The VSCode Firebase Extension allows you to generate Firebase Data Connect SDK c
 Now you should be able to deploy your schema, run mutations/queries, generate SDK code, and view your application locally.
 
 ### 5. Populating the database
-1. Run `1_movie_insert.gql`, `2_actor_insert.gql`, `3_movie_actor_insert.gql`, and `4_user_favorites_review_insert.gql` files in the `./dataconnect` directory in order using the VS code extension, 
+1. Run `1_movie_insert.gql`, `2_actor_insert.gql`, `3_movie_actor_insert.gql`, and `4_user_recommendeds_review_insert.gql` files in the `./dataconnect` directory in order using the VS code extension, 
 
 ### 6. Running the app
 

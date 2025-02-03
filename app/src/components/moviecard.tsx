@@ -20,9 +20,9 @@ import { MdFavorite, MdFavoriteBorder, MdStar } from "react-icons/md";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { AuthContext } from "@/lib/firebase";
 import {
-  handleAddFavoritedMovie,
-  handleDeleteFavoritedMovie,
-  handleGetIfFavoritedMovie,
+  handleAddRecommendedMovie,
+  handleDeleteRecommendedMovie,
+  handleGetIfRecommendedMovie,
 } from "@/lib/MovieService";
 
 interface MovieCardProps {
@@ -43,45 +43,45 @@ export default function MovieCard({
   tags,
 }: MovieCardProps) {
   const [user, setUser] = useState<User | null>(null);
-  const [isFavorited, setIsFavorited] = useState(false);
+  const [isRecommendedd, setIsRecommendedd] = useState(false);
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function checkIfFavorited() {
+    async function checkIfRecommendedd() {
       try {
-        const isFav = await handleGetIfFavoritedMovie(id);
-        setIsFavorited(isFav);
+        const isFav = await handleGetIfRecommendedMovie(id);
+        setIsRecommendedd(isFav);
       } catch (error) {
-        console.error("Error checking if movie is favorited:", error);
+        console.error("Error checking if movie is recommendedd:", error);
       }
     }
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
-        checkIfFavorited();
+        checkIfRecommendedd();
       } else {
-        setIsFavorited(false);
+        setIsRecommendedd(false);
       }
     });
 
     return () => unsubscribe();
   }, [auth, id]);
 
-  async function handleFavoriteToggle(e: React.MouseEvent) {
+  async function handleRecommendedToggle(e: React.MouseEvent) {
     e.stopPropagation();
     e.preventDefault();
     if (!user) return;
     try {
-      const isFav = await handleGetIfFavoritedMovie(id);
+      const isFav = await handleGetIfRecommendedMovie(id);
       if (isFav) {
-        await handleDeleteFavoritedMovie(id);
+        await handleDeleteRecommendedMovie(id);
       } else {
-        await handleAddFavoritedMovie(id);
+        await handleAddRecommendedMovie(id);
       }
-      setIsFavorited(!isFav);
+      setIsRecommendedd(!isFav);
     } catch (error) {
-      console.error("Error updating favorite status:", error);
+      console.error("Error updating recommended status:", error);
     }
   }
 
@@ -109,10 +109,10 @@ export default function MovieCard({
           <div className="flex space-x-2 items-center">
             <button
               className="flex items-center justify-center p-1 text-red-500 hover:text-red-600 transition-colors duration-200"
-              aria-label="Favorite"
-              onClick={handleFavoriteToggle}
+              aria-label="Recommended"
+              onClick={handleRecommendedToggle}
             >
-              {isFavorited ? (
+              {isRecommendedd ? (
                 <MdFavorite size={20} />
               ) : (
                 <MdFavoriteBorder size={20} />

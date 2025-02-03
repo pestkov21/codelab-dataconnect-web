@@ -198,7 +198,7 @@ mutation {
       {
         id: "550e8400-e29b-41d4-a716-446655440018"
         title: "Parallel Justice"
-        imageUrl: "https://firebasestorage.googleapis.com/v0/b/fdc-web-quickstart.appspot.com/o/movie%2Fparalel_justice.jpeg?alt=media&token=4544b5e2-7a1d-46ca-a97f-eb6a490d4288"
+        imageUrl: "https://firebasestorage.googleapis.com/v0/b/fdc-web-quickstart.appspot.com/o/movie%2Fparallel_justice.jpeg?alt=media&token=f975524a-6edf-4d3b-99e1-c99e62a50518"
         releaseYear: 2024
         genre: "crime"
         rating: 8.1
@@ -670,7 +670,7 @@ movieActor_insertMany(
     ]
   )
 
-  favorite_movie_insertMany(
+  recommended_movie_insertMany(
     data: [
       {
         userId: "SnLgOC3lN4hcIl69s53cW0Q8R1T2"

@@ -24,12 +24,12 @@ import { connectorConfig } from '@movie/dataconnect';
 import { createContext } from "react";
 
 const firebaseConfig = {
-  apiKey: "API_KEY",
-  authDomain: "PROJECT_ID.firebaseapp.com",
-  projectId: "PROJECT_ID",
-  storageBucket: "PROJECT_ID.appspot.com",
-  messagingSenderId: "SENDER_ID",
-  appId: "APP_ID"
+  apiKey: "AIzaSyAcl7mwFrwV6MEkuad7Q_Q9fp61N-y4IsY",
+  authDomain: "fdc-web-quickstart.firebaseapp.com",
+  projectId: "fdc-web-quickstart",
+  storageBucket: "fdc-web-quickstart.appspot.com",
+  messagingSenderId: "745817577832",
+  appId: "1:745817577832:web:9cb10e7a6612583ec3dedd"
 };
 
 const firebaseApp =
