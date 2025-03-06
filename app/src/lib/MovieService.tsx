@@ -31,35 +31,31 @@
 //   SearchMovieDescriptionUsingL2similarityData,
 // } from "@movie/dataconnect";
 
-import { GetCurrentUserData, OrderDirection, searchAll, SearchAllData } from "@movie/dataconnect";
+import { GetCurrentUserData, ListMoviesData, ListMoviesVariables, OrderDirection, searchAll, SearchAllData } from "@movie/dataconnect";
+import { useGetActorById, useGetMovieById, useListMovies } from "@movie/dataconnect/react";
+import { FlattenedQueryResult } from "@tanstack-query-firebase/react/data-connect";
+import { UseQueryResult } from "@tanstack/react-query";
+import { FirebaseError } from "firebase/app";
 import { User } from "firebase/auth";
 
 // Fetch top-rated movies
-export function useHandleTopMovies(arg0: { limit: number; orderByRating: OrderDirection; }): { data: any; isLoading: any; } {
-  return { data: { movies: [] }, isLoading: false };
+export function useHandleTopMovies(limit: number, orderByRating: OrderDirection): UseQueryResult<FlattenedQueryResult<ListMoviesData, ListMoviesVariables>, FirebaseError> {
+  return useListMovies({ limit, orderByRating: orderByRating });
 }
 
 // Fetch latest movies
-export function useHandleLatestMovies(arg0: { limit: number; orderByReleaseYear: OrderDirection; }): { data: any; isLoading: any; } {
-  return { data: { movies: [] }, isLoading: false };
+export function useHandleLatestMovies(limit: number, orderByReleaseYear: OrderDirection): { data: any; isLoading: any; } {
+  return useListMovies({ limit, orderByReleaseYear});
 }
 
 // Fetch movie details by ID
-export function useHandleGetMovieById(arg0: { id: string}): { data: any; isLoading: any; error: any } {
-  return {
-    error: new Error("Function not implemented."),
-    isLoading: false,
-    data: {},
-  };
+export function useHandleGetMovieById(id: string): { data: any; isLoading: any; error: any } {
+  return useGetMovieById({ id });
 }
 
 // Fetch actor details by ID
-export function useHandleGetActorById(arg0: { id: string; }): { error: any; isLoading: any; data: any; } {
-  return {
-    error: new Error("Function not implemented."),
-    isLoading: false,
-    data: {},
-  };
+export function useHandleGetActorById(id: string): { error: any; isLoading: any; data: any; } {
+  return useGetActorById({ id });
 }
 
 // Updates user table when user signs in
@@ -68,10 +64,8 @@ export const handleAuthStateChange = (auth: any, setUser: (user: User | null) =>
 };
 
 // Fetch current user profile
-export const handleGetCurrentUser = async (): Promise<
-  GetCurrentUserData["user"] | null
-> => {
-  throw new Error("Function not implemented.");
+export function useHandleGetCurrentUser(enabled: boolean): { data: any, isLoading: boolean, refetch: any} {
+  return { data: {}, isLoading: false, refetch: () => {}};
 };
 
 // Add a movie to user's favorites
