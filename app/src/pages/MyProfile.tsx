@@ -17,11 +17,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged, User } from "firebase/auth";
-import { handleGetCurrentUser} from "@/lib/MovieService";
+import { handleGetCurrentUser, useDeleteReview} from "@/lib/MovieService";
 import { MdStar } from "react-icons/md";
 import { AuthContext } from "@/lib/firebase";
 import MovieCard from "@/components/moviecard";
-import { useDeleteReview } from "@/lib/dataconnect-sdk/react";
 import { GetCurrentUserData } from "@/lib/dataconnect-sdk";
 
 export default function MyProfilePage() {

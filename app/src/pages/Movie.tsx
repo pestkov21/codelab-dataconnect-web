@@ -22,26 +22,17 @@ import { AuthContext } from "@/lib/firebase";
 import NotFound from "./NotFound";
 import {
   fetchSimilarMovies,
-  // handleGetMovieById,
-  // handleAddFavoritedMovie,
-  // handleDeleteFavoritedMovie,
-  // handleAddReview,
-  // handleDeleteReview,
-  // fetchSimilarMovies,
-} from "@/lib/MovieService";
-import MovieCard from "@/components/moviecard";
-import {
   useAddFavoritedMovie,
   useAddReview,
   useDeleteFavoritedMovie,
   useDeleteReview,
   useGetIfFavoritedMovie,
   useGetMovieById,
-} from "@/lib/dataconnect-sdk/react";
+} from "@/lib/MovieService";
+import MovieCard from "@/components/moviecard";
 import {
   DateString,
   getIfFavoritedMovieRef,
-  GetMovieByIdData,
   getMovieByIdRef,
   User_Key,
   UUIDString,
@@ -338,3 +329,5 @@ export default function MoviePage() {
     </div>
   );
 }
+
+

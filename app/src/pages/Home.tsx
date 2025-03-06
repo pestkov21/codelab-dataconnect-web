@@ -16,12 +16,12 @@
 
 import React from 'react';
 import Carousel from '@/components/carousel';
-import { useListMovies } from '@/lib/dataconnect-sdk/react';
 import { OrderDirection } from '@/lib/dataconnect-sdk';
+import { useLatestMovies, useTopMovies } from '@/lib/MovieService';
 
 export default function HomePage() {
-  const { data: topMoviesData, isLoading: topMoviesLoading } = useListMovies({ limit: 10, orderByRating: OrderDirection.DESC });
-  const { data: latestMoviesData, isLoading: latestMoviesLoading } = useListMovies({ limit: 10, orderByReleaseYear: OrderDirection.DESC });
+  const { data: topMoviesData, isLoading: topMoviesLoading } = useTopMovies({ limit: 10, orderByRating: OrderDirection.DESC });
+  const { data: latestMoviesData, isLoading: latestMoviesLoading } = useLatestMovies({ limit: 10, orderByReleaseYear: OrderDirection.DESC });
 
   if(topMoviesLoading || latestMoviesLoading) {
     return <div>Loading...</div>
@@ -34,3 +34,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+

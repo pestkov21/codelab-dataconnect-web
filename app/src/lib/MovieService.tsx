@@ -31,55 +31,36 @@
 //   SearchMovieDescriptionUsingL2similarityData,
 // } from "@movie/dataconnect";
 
-import { getCurrentUser, GetCurrentUserData, searchAll, SearchAllData, upsertUser } from "@movie/dataconnect";
+import { getCurrentUser, GetCurrentUserData, OrderDirection, searchAll, SearchAllData, upsertUser } from "@movie/dataconnect";
 import { onAuthStateChanged, User } from "firebase/auth";
 
 // Fetch top-rated movies
-export const handleGetTopMovies = async (
-  limit: number
-): Promise<any[]> => {
-  return [];
-};
+export function useTopMovies(arg0: { limit: number; orderByRating: OrderDirection; }): { data: any; isLoading: any; } {
+  throw new Error('Function not implemented.');
+}
 
 // Fetch latest movies
-export const handleGetLatestMovies = async (
-  limit: number
-): Promise<any[]> => {
-  return [];
-};
+export function useLatestMovies(arg0: { limit: number; orderByReleaseYear: OrderDirection; }): { data: any; isLoading: any; } {
+  throw new Error('Function not implemented.');
+}
 
 // Fetch movie details by ID
-export const handleGetMovieById = async (
-  movieId: string
-): Promise<any | null> => {
-  return null;
-};
-
+export function useGetMovieById(arg0: { id: string}): { data: any; isLoading: any; error: any } {
+  throw new Error('Function not implemented.');
+}
 
 // Fetch actor details by ID
-export const handleGetActorById = async (
-  actorId: string
-): Promise<any | null> => {
-  return null;
-};
+export function useGetActorById(arg0: { id: string; }): { error: any; isLoading: any; data: any; } {
+  throw new Error('Function not implemented.');
+}
 
-// Handle user authentication state changes and upsert user
-export const handleAuthStateChange = (
-  auth: any,
-  setUser: (user: User | null) => void
-) => {
-  return onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      setUser(user);
-      const username = user.email?.split("@")[0] || "anon";
-      await upsertUser({ username });
-    } else {
-      setUser(null);
-    }
-  });
+// Updates user table when user signs in
+export const handleAuthStateChange = (auth: any, setUser: (user: User | null) => void) => {
+  return () => {};
 };
 
 // Fetch current user profile
+// TODO(mtewani): Convert this into a proper hook
 export const handleGetCurrentUser = async (): Promise<
   GetCurrentUserData["user"] | null
 > => {
@@ -92,27 +73,30 @@ export const handleGetCurrentUser = async (): Promise<
   }
 };
 
-
 // Add a movie to user's favorites
-export const handleAddFavoritedMovie = async (
-  movieId: string
-): Promise<void> => {
-  return;
-};
+export const useAddFavoritedMovie = ({ invalidate}: { invalidate: any}): {mutate: any} => {
+  throw new Error("Function not implemented.");
+}
 
 // Remove a movie from user's favorites
-export const handleDeleteFavoritedMovie = async (
-  movieId: string
-): Promise<void> => {
-  return;
-};
+export const useDeleteFavoritedMovie =  ({ invalidate}: { invalidate: any}): {mutate: any} => {
+  throw new Error("Function not implemented.");
+}
 
 // Check if the movie is favorited by the user
-export const handleGetIfFavoritedMovie = async (
-  movieId: string
-): Promise<boolean> => {
-  return false;
-};
+export const useGetIfFavoritedMovie = ({ movieId }: { movieId: string}, { enabled }: { enabled: boolean}): {data: any} => {
+  throw new Error("Function not implemented.");
+}
+
+// Add a review to a movie
+export function useAddReview({ invalidate}: { invalidate: any}): { mutate: any; } {
+  throw new Error("Function not implemented.");
+}
+
+// Delete a review from a movie
+export function useDeleteReview(): { mutate: any; } {
+  throw new Error("Function not implemented.");
+}
 
 // Function to perform the search using the query and filters
 export const handleSearchAll = async (

@@ -19,7 +19,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { AuthContext } from '@/lib/firebase';
 import NotFound from './NotFound';
-import { useGetActorById } from '@/lib/dataconnect-sdk/react';
+import { useGetActorById } from '@/lib/MovieService';
 
 export default function ActorPage() {
   const navigate = useNavigate();
@@ -104,3 +104,5 @@ export default function ActorPage() {
     <NotFound />
   );
 }
+
+
