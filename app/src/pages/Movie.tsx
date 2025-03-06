@@ -22,12 +22,12 @@ import { AuthContext } from "@/lib/firebase";
 import NotFound from "./NotFound";
 import {
   fetchSimilarMovies,
-  useAddFavoritedMovie,
-  useAddReview,
-  useDeleteFavoritedMovie,
-  useDeleteReview,
-  useGetIfFavoritedMovie,
-  useGetMovieById,
+  useHandleAddFavoritedMovie,
+  useHandleAddReview,
+  useHandleDeleteFavoritedMovie,
+  useHandleDeleteReview,
+  useHandleGetIfFavoritedMovie,
+  useHandleGetMovieById,
 } from "@/lib/MovieService";
 import MovieCard from "@/components/moviecard";
 import {
@@ -60,19 +60,19 @@ export default function MoviePage() {
   const [userReview, setUserReview] = useState<UserReview | null>(null);
   const [similarMovies, setSimilarMovies] = useState<any[]>([]);
 
-  const { data, isLoading, error } = useGetMovieById({ id });
+  const { data, isLoading, error } = useHandleGetMovieById({ id });
   const movie = data?.movie;
-  const { mutate: handleAddFavoritedMovie } = useAddFavoritedMovie({
+  const { mutate: handleAddFavoritedMovie } = useHandleAddFavoritedMovie({
     invalidate: [getIfFavoritedMovieRef({ movieId: id })],
   });
-  const { mutate: handleDeleteFavoritedMovie } = useDeleteFavoritedMovie({
+  const { mutate: handleDeleteFavoritedMovie } = useHandleDeleteFavoritedMovie({
     invalidate: [getIfFavoritedMovieRef({ movieId: id })],
   });
-  const { mutate: handleAddReview } = useAddReview({
+  const { mutate: handleAddReview } = useHandleAddReview({
     invalidate: [getMovieByIdRef({ id })],
   });
-  const { mutate: handleDeleteReview } = useDeleteReview();
-  const { data: favoritedMovieData } = useGetIfFavoritedMovie(
+  const { mutate: handleDeleteReview } = useHandleDeleteReview();
+  const { data: favoritedMovieData } = useHandleGetIfFavoritedMovie(
     { movieId: id },
     { enabled: !!authUser }
   );

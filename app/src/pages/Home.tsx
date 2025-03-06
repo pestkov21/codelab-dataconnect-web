@@ -17,11 +17,11 @@
 import React from 'react';
 import Carousel from '@/components/carousel';
 import { OrderDirection } from '@/lib/dataconnect-sdk';
-import { useLatestMovies, useTopMovies } from '@/lib/MovieService';
+import { useHandleLatestMovies, useHandleTopMovies } from '@/lib/MovieService';
 
 export default function HomePage() {
-  const { data: topMoviesData, isLoading: topMoviesLoading } = useTopMovies({ limit: 10, orderByRating: OrderDirection.DESC });
-  const { data: latestMoviesData, isLoading: latestMoviesLoading } = useLatestMovies({ limit: 10, orderByReleaseYear: OrderDirection.DESC });
+  const { data: topMoviesData, isLoading: topMoviesLoading } = useHandleTopMovies({ limit: 10, orderByRating: OrderDirection.DESC });
+  const { data: latestMoviesData, isLoading: latestMoviesLoading } = useHandleLatestMovies({ limit: 10, orderByReleaseYear: OrderDirection.DESC });
 
   if(topMoviesLoading || latestMoviesLoading) {
     return <div>Loading...</div>

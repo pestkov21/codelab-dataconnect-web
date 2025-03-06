@@ -35,17 +35,17 @@ import { GetCurrentUserData, OrderDirection, searchAll, SearchAllData } from "@m
 import { User } from "firebase/auth";
 
 // Fetch top-rated movies
-export function useTopMovies(arg0: { limit: number; orderByRating: OrderDirection; }): { data: any; isLoading: any; } {
+export function useHandleTopMovies(arg0: { limit: number; orderByRating: OrderDirection; }): { data: any; isLoading: any; } {
   return { data: { movies: [] }, isLoading: false };
 }
 
 // Fetch latest movies
-export function useLatestMovies(arg0: { limit: number; orderByReleaseYear: OrderDirection; }): { data: any; isLoading: any; } {
+export function useHandleLatestMovies(arg0: { limit: number; orderByReleaseYear: OrderDirection; }): { data: any; isLoading: any; } {
   return { data: { movies: [] }, isLoading: false };
 }
 
 // Fetch movie details by ID
-export function useGetMovieById(arg0: { id: string}): { data: any; isLoading: any; error: any } {
+export function useHandleGetMovieById(arg0: { id: string}): { data: any; isLoading: any; error: any } {
   return {
     error: new Error("Function not implemented."),
     isLoading: false,
@@ -54,7 +54,7 @@ export function useGetMovieById(arg0: { id: string}): { data: any; isLoading: an
 }
 
 // Fetch actor details by ID
-export function useGetActorById(arg0: { id: string; }): { error: any; isLoading: any; data: any; } {
+export function useHandleGetActorById(arg0: { id: string; }): { error: any; isLoading: any; data: any; } {
   return {
     error: new Error("Function not implemented."),
     isLoading: false,
@@ -75,35 +75,35 @@ export const handleGetCurrentUser = async (): Promise<
 };
 
 // Add a movie to user's favorites
-export const useAddFavoritedMovie = ({ invalidate}: { invalidate: any}): {mutate: any} => {
+export const useHandleAddFavoritedMovie = ({ invalidate}: { invalidate: any}): {mutate: any} => {
   return {
     mutate: () => {}
   }
 }
 
 // Remove a movie from user's favorites
-export const useDeleteFavoritedMovie =  ({ invalidate}: { invalidate: any}): {mutate: any} => {
+export const useHandleDeleteFavoritedMovie =  ({ invalidate}: { invalidate: any}): {mutate: any} => {
 return {
     mutate: () => {}
   }
 }
 
 // Check if the movie is favorited by the user
-export const useGetIfFavoritedMovie = ({ movieId }: { movieId: string}, { enabled }: { enabled: boolean}): {data: any} => {
+export const useHandleGetIfFavoritedMovie = ({ movieId }: { movieId: string}, { enabled }: { enabled: boolean}): {data: any} => {
   return {
     data: {},
   };
 }
 
 // Add a review to a movie
-export function useAddReview({ invalidate}: { invalidate: any}): { mutate: any; } {
+export function useHandleAddReview({ invalidate}: { invalidate: any}): { mutate: any; } {
   return {
     mutate: () => {}
   }
 }
 
 // Delete a review from a movie
-export function useDeleteReview(arg?: { invalidate: any}): { mutate: any; } {
+export function useHandleDeleteReview(arg?: { invalidate: any}): { mutate: any; } {
  return {
     mutate: () => {}
   }
