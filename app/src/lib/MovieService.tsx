@@ -31,6 +31,7 @@
 //   SearchMovieDescriptionUsingL2similarityData,
 // } from "@movie/dataconnect";
 
+import { getCurrentUser, GetCurrentUserData, searchAll, SearchAllData, upsertUser } from "@movie/dataconnect";
 import { onAuthStateChanged, User } from "firebase/auth";
 
 // Fetch top-rated movies
@@ -62,14 +63,33 @@ export const handleGetActorById = async (
   return null;
 };
 
-// Updates user table when user signs in
-export const handleAuthStateChange = (auth: any, setUser: (user: User | null) => void) => {
-  return () => {};
+// Handle user authentication state changes and upsert user
+export const handleAuthStateChange = (
+  auth: any,
+  setUser: (user: User | null) => void
+) => {
+  return onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      setUser(user);
+      const username = user.email?.split("@")[0] || "anon";
+      await upsertUser({ username });
+    } else {
+      setUser(null);
+    }
+  });
 };
 
 // Fetch current user profile
-export const handleGetCurrentUser = async (): Promise<any | null> => {
-  return null;
+export const handleGetCurrentUser = async (): Promise<
+  GetCurrentUserData["user"] | null
+> => {
+  try {
+    const response = await getCurrentUser();
+    return response.data.user;
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    return null;
+  }
 };
 
 
@@ -108,7 +128,7 @@ export const handleDeleteReview = async (movieId: string): Promise<void> => {
   return;
 };
 
-// Function to perform the search using the query and filters
+  // Function to perform the search using the query and filters
 export const handleSearchAll = async (
   searchQuery: string,
   minYear: number,
@@ -116,8 +136,22 @@ export const handleSearchAll = async (
   minRating: number,
   maxRating: number,
   genre: string
-): Promise<any> => {
-  return null;
+): Promise<SearchAllData | null> => {
+  try {
+    const response = await searchAll({
+      input: searchQuery,
+      minYear,
+      maxYear,
+      minRating,
+      maxRating,
+      genre,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error performing search:", error);
+    return null;
+  }
 };
 
 

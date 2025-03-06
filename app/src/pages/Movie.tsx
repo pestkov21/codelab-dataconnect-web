@@ -21,36 +21,44 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import { AuthContext } from "@/lib/firebase";
 import NotFound from "./NotFound";
 import {
-  handleGetMovieById,
-  handleGetIfFavoritedMovie,
-  handleAddFavoritedMovie,
-  handleDeleteFavoritedMovie,
-  handleAddReview,
-  handleDeleteReview,
   fetchSimilarMovies,
+    handleGetIfFavoritedMovie,
+  // handleGetMovieById,
+  // handleAddFavoritedMovie,
+  // handleDeleteFavoritedMovie,
+  // handleAddReview,
+  // handleDeleteReview,
+  // fetchSimilarMovies,
 } from "@/lib/MovieService";
 import MovieCard from "@/components/moviecard";
+import { useAddFavoritedMovie, useAddReview, useDeleteFavoritedMovie, useDeleteReview, useGetMovieById } from "@/lib/dataconnect-sdk/react";
+import { getMovieByIdRef } from "@/lib/dataconnect-sdk";
 
 export default function MoviePage() {
   const { id } = useParams() as { id: string };
   const auth = useContext(AuthContext);
 
-  const [loading, setLoading] = useState(true);
   const [authUser, setAuthUser] = useState<User | null>(null);
   const [isFavorited, setIsFavorited] = useState(false);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
 
-  const [movie, setMovie] = useState(null);
+  // const [movie, setMovie] = useState(null);
   const [userReview, setUserReview] = useState(null);
   const [similarMovies, setSimilarMovies] = useState([]);
+
+  const { data: { movie }, isLoading, error } = useGetMovieById({ id });
+  const { mutate: handleAddFavoritedMovie } = useAddFavoritedMovie();
+  const { mutate: handleDeleteFavoritedMovie } = useDeleteFavoritedMovie();
+  const { mutate: handleAddReview } = useAddReview({ invalidate: [getMovieByIdRef({ id })]});
+  const { mutate: handleDeleteReview } = useDeleteReview();
 
   // Fetch the movie details and check if it's favorited when the user is authenticated
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setAuthUser(user);
-        handleGetIfFavoritedMovie(id).then(setIsFavorited);
+        handleGetIfFavoritedMovie(id).then(setIsFavorited); // TODO(mtewani) can we handle this with suspense?
       }
     });
 
@@ -60,25 +68,20 @@ export default function MoviePage() {
   // Fetch movie details and the user's review
   useEffect(() => {
     if (id) {
-      handleGetMovieById(id).then((movieData) => {
-        setMovie(movieData);
-        if (movieData?.reviews) {
-          const userReview = movieData.reviews.find(
+        if (movie.reviews) {
+          const userReview = movie.reviews.find(
             (review) => review.user.id === authUser?.uid
           );
-          fetchSimilarMovies(movieData.description).then((similarMovies) => {
+          fetchSimilarMovies(movie.description).then((similarMovies) => {
             const similarResults = similarMovies?.filter(
-              (movie) => movie.id !== movieData.id
+              (movie) => movie.id !== movie.id
             );
             setSimilarMovies(
               similarResults && similarResults.length > 1 ? similarResults : []
             );
-            setMovie(movieData);
           });
           setUserReview(userReview || null);
         }
-        setLoading(false);
-      });
     }
   }, [id, authUser]);
 
@@ -90,9 +93,9 @@ export default function MoviePage() {
 
     try {
       if (isFavorited) {
-        await handleDeleteFavoritedMovie(id);
+        await handleDeleteFavoritedMovie({ movieId: id});
       } else {
-        await handleAddFavoritedMovie(id);
+        await handleAddFavoritedMovie({ movieId: id });
       }
       setIsFavorited(!isFavorited);
     } catch (error) {
@@ -106,11 +109,11 @@ export default function MoviePage() {
     if (!authUser) return;
 
     try {
-      await handleAddReview(id, rating, reviewText);
+      await handleAddReview({ movieId: id, rating, reviewText });
       setReviewText("");
       setRating(0);
-      const updatedMovie = await handleGetMovieById(id);
-      setMovie(updatedMovie);
+      // const updatedMovie = await handleGetMovieById(id);
+      // setMovie(updatedMovie);
     } catch (error) {
       console.error("Error submitting review:", error);
     }
@@ -123,17 +126,16 @@ export default function MoviePage() {
     if (!authUser || !userReview) return;
 
     try {
-      await handleDeleteReview(id);
+      await handleDeleteReview({ movieId: id });
       setUserReview(null);
-      const updatedMovie = await handleGetMovieById(id);
-      setMovie(updatedMovie);
+      
     } catch (error) {
       console.error("Error deleting review:", error);
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (!movie) return <NotFound />;
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <NotFound />;
 
   return (
     <div className="container mx-auto p-4 bg-gray-900 min-h-screen text-white">

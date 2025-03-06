@@ -20,16 +20,16 @@ import { onAuthStateChanged, User } from 'firebase/auth';
 import { AuthContext } from '@/lib/firebase';
 import NotFound from './NotFound';
 import { handleGetActorById } from '@/lib/MovieService';
+import { useGetActorById } from '@/lib/dataconnect-sdk/react';
 
 export default function ActorPage() {
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
-  const [loading, setLoading] = useState(true);
   const { id } = useParams<{ id: string }>();
   const actorId = id || '';
   const [, setAuthUser] = useState<User | null>(null);
 
-  const [actor, setActor] = useState(null);
+  const { error, isLoading, data: { actor } } = useGetActorById({ id: actorId });
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -41,23 +41,11 @@ export default function ActorPage() {
     return () => unsubscribe();
   }, [auth, actorId]);
 
-  useEffect(() => {
-    if (actorId) {
-      const fetchActor = async () => {
-        const actorData = await handleGetActorById(actorId);
-        if (actorData) {
-          setActor(actorData);
-        } else {
-          navigate('/not-found');
-        }
-        setLoading(false);
-      };
 
-      fetchActor();
-    }
-  }, [actorId, navigate]);
-
-  if (loading) return <p>Loading...</p>;
+  if (isLoading) return <p>Loading...</p>;
+  if(error) {
+    navigate('/not-found');
+  }
 
   return actor ? (
     <div className="container mx-auto p-4 bg-gray-900 min-h-screen text-white">
