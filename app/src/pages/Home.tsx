@@ -29,8 +29,8 @@ export default function HomePage() {
 
   return (
     <div className="container mx-auto p-4 bg-gray-900 text-white shadow-md min-h-screen">
-      <Carousel title="Top 10 Movies" movies={topMoviesData?.movies} />
-      <Carousel title="Latest Movies" movies={latestMoviesData?.movies} />
+      <Carousel title="Top 10 Movies" movies={topMoviesData!.movies} />
+      <Carousel title="Latest Movies" movies={latestMoviesData!.movies} />
     </div>
   );
 }

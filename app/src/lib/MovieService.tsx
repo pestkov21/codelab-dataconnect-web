@@ -114,21 +114,7 @@ export const handleGetIfFavoritedMovie = async (
   return false;
 };
 
-// Add a review to a movie
-export const handleAddReview = async (
-  movieId: string,
-  rating: number,
-  reviewText: string
-): Promise<void> => {
-  return;
-};
-
-// Delete a review from a movie
-export const handleDeleteReview = async (movieId: string): Promise<void> => {
-  return;
-};
-
-  // Function to perform the search using the query and filters
+// Function to perform the search using the query and filters
 export const handleSearchAll = async (
   searchQuery: string,
   minYear: number,

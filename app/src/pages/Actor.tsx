@@ -19,7 +19,6 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { AuthContext } from '@/lib/firebase';
 import NotFound from './NotFound';
-import { handleGetActorById } from '@/lib/MovieService';
 import { useGetActorById } from '@/lib/dataconnect-sdk/react';
 
 export default function ActorPage() {
@@ -29,7 +28,8 @@ export default function ActorPage() {
   const actorId = id || '';
   const [, setAuthUser] = useState<User | null>(null);
 
-  const { error, isLoading, data: { actor } } = useGetActorById({ id: actorId });
+  const { error, isLoading, data } = useGetActorById({ id: actorId });
+  const actor = data?.actor;
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {

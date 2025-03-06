@@ -631,6 +631,7 @@ export interface SearchAllData {
     genre?: string | null;
     rating?: number | null;
     imageUrl: string;
+    tags?: string[] | null;
   } & Movie_Key)[];
     moviesMatchingDescription: ({
       id: UUIDString;
@@ -638,6 +639,7 @@ export interface SearchAllData {
       genre?: string | null;
       rating?: number | null;
       imageUrl: string;
+      tags?: string[] | null;
     } & Movie_Key)[];
       actorsMatchingName: ({
         id: UUIDString;

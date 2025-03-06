@@ -17,10 +17,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged, User } from "firebase/auth";
-import { handleGetCurrentUser, handleDeleteReview } from "@/lib/MovieService";
+import { handleGetCurrentUser} from "@/lib/MovieService";
 import { MdStar } from "react-icons/md";
 import { AuthContext } from "@/lib/firebase";
 import MovieCard from "@/components/moviecard";
+import { useDeleteReview } from "@/lib/dataconnect-sdk/react";
+import { GetCurrentUserData } from "@/lib/dataconnect-sdk";
 
 export default function MyProfilePage() {
   const navigate = useNavigate();
@@ -28,7 +30,8 @@ export default function MyProfilePage() {
   const [loading, setLoading] = useState(true);
   const auth = useContext(AuthContext);
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<GetCurrentUserData['user'] | null>(null);
+  const {mutate: handleDeleteReview } = useDeleteReview();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -57,7 +60,7 @@ export default function MyProfilePage() {
   async function deleteReview(reviewMovieId: string) {
     if (!authUser) return;
     try {
-      await handleDeleteReview(reviewMovieId);
+      await handleDeleteReview({movieId: reviewMovieId});
       loadUserProfile();
     } catch (error) {
       console.error("Error deleting review:", error);
