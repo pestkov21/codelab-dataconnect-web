@@ -54,11 +54,9 @@ export default function MoviePage() {
   const auth = useContext(AuthContext);
 
   const [authUser, setAuthUser] = useState<User | null>(null);
-  // const [isFavorited, setIsFavorited] = useState(false);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
 
-  // const [movie, setMovie] = useState(null);
   const [userReview, setUserReview] = useState<UserReview | null>(null);
   const [similarMovies, setSimilarMovies] = useState<any[]>([]);
 
@@ -160,8 +158,8 @@ export default function MoviePage() {
     }
   };
 
-  if (isLoading || !movie) return <p>Loading...</p>;
-  if (error) return <NotFound />;
+  if (isLoading) return <p>Loading...</p>;
+  if (error || !movie) return <NotFound />;
 
   return (
     <div className="container mx-auto p-4 bg-gray-900 min-h-screen text-white">

@@ -36,22 +36,30 @@ import { User } from "firebase/auth";
 
 // Fetch top-rated movies
 export function useTopMovies(arg0: { limit: number; orderByRating: OrderDirection; }): { data: any; isLoading: any; } {
-  throw new Error('Function not implemented.');
+  return { data: { movies: [] }, isLoading: false };
 }
 
 // Fetch latest movies
 export function useLatestMovies(arg0: { limit: number; orderByReleaseYear: OrderDirection; }): { data: any; isLoading: any; } {
-  throw new Error('Function not implemented.');
+  return { data: { movies: [] }, isLoading: false };
 }
 
 // Fetch movie details by ID
 export function useGetMovieById(arg0: { id: string}): { data: any; isLoading: any; error: any } {
-  throw new Error('Function not implemented.');
+  return {
+    error: new Error("Function not implemented."),
+    isLoading: false,
+    data: {},
+  };
 }
 
 // Fetch actor details by ID
 export function useGetActorById(arg0: { id: string; }): { error: any; isLoading: any; data: any; } {
-  throw new Error('Function not implemented.');
+  return {
+    error: new Error("Function not implemented."),
+    isLoading: false,
+    data: {},
+  };
 }
 
 // Updates user table when user signs in
@@ -68,27 +76,37 @@ export const handleGetCurrentUser = async (): Promise<
 
 // Add a movie to user's favorites
 export const useAddFavoritedMovie = ({ invalidate}: { invalidate: any}): {mutate: any} => {
-  throw new Error("Function not implemented.");
+  return {
+    mutate: () => {}
+  }
 }
 
 // Remove a movie from user's favorites
 export const useDeleteFavoritedMovie =  ({ invalidate}: { invalidate: any}): {mutate: any} => {
-  throw new Error("Function not implemented.");
+return {
+    mutate: () => {}
+  }
 }
 
 // Check if the movie is favorited by the user
 export const useGetIfFavoritedMovie = ({ movieId }: { movieId: string}, { enabled }: { enabled: boolean}): {data: any} => {
-  throw new Error("Function not implemented.");
+  return {
+    data: {},
+  };
 }
 
 // Add a review to a movie
 export function useAddReview({ invalidate}: { invalidate: any}): { mutate: any; } {
-  throw new Error("Function not implemented.");
+  return {
+    mutate: () => {}
+  }
 }
 
 // Delete a review from a movie
 export function useDeleteReview(arg?: { invalidate: any}): { mutate: any; } {
-  throw new Error("Function not implemented.");
+ return {
+    mutate: () => {}
+  }
 }
 
 // Function to perform the search using the query and filters
