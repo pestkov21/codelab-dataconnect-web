@@ -12,56 +12,6 @@ export const connectorConfig = {
   location: 'us-central1'
 };
 
-export function upsertUserRef(dcOrVars, vars) {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'UpsertUser', inputVars);
-}
-
-export function upsertUser(dcOrVars, vars) {
-  return executeMutation(upsertUserRef(dcOrVars, vars));
-}
-
-export function addFavoritedMovieRef(dcOrVars, vars) {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'AddFavoritedMovie', inputVars);
-}
-
-export function addFavoritedMovie(dcOrVars, vars) {
-  return executeMutation(addFavoritedMovieRef(dcOrVars, vars));
-}
-
-export function deleteFavoritedMovieRef(dcOrVars, vars) {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'DeleteFavoritedMovie', inputVars);
-}
-
-export function deleteFavoritedMovie(dcOrVars, vars) {
-  return executeMutation(deleteFavoritedMovieRef(dcOrVars, vars));
-}
-
-export function addReviewRef(dcOrVars, vars) {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'AddReview', inputVars);
-}
-
-export function addReview(dcOrVars, vars) {
-  return executeMutation(addReviewRef(dcOrVars, vars));
-}
-
-export function deleteReviewRef(dcOrVars, vars) {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'DeleteReview', inputVars);
-}
-
-export function deleteReview(dcOrVars, vars) {
-  return executeMutation(deleteReviewRef(dcOrVars, vars));
-}
-
 export function listMoviesRef(dcOrVars, vars) {
   const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars);
   dcInstance._useGeneratedSdk();
@@ -120,5 +70,55 @@ export function searchAllRef(dcOrVars, vars) {
 
 export function searchAll(dcOrVars, vars) {
   return executeQuery(searchAllRef(dcOrVars, vars));
+}
+
+export function upsertUserRef(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'UpsertUser', inputVars);
+}
+
+export function upsertUser(dcOrVars, vars) {
+  return executeMutation(upsertUserRef(dcOrVars, vars));
+}
+
+export function addFavoritedMovieRef(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'AddFavoritedMovie', inputVars);
+}
+
+export function addFavoritedMovie(dcOrVars, vars) {
+  return executeMutation(addFavoritedMovieRef(dcOrVars, vars));
+}
+
+export function deleteFavoritedMovieRef(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'DeleteFavoritedMovie', inputVars);
+}
+
+export function deleteFavoritedMovie(dcOrVars, vars) {
+  return executeMutation(deleteFavoritedMovieRef(dcOrVars, vars));
+}
+
+export function addReviewRef(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'AddReview', inputVars);
+}
+
+export function addReview(dcOrVars, vars) {
+  return executeMutation(addReviewRef(dcOrVars, vars));
+}
+
+export function deleteReviewRef(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'DeleteReview', inputVars);
+}
+
+export function deleteReview(dcOrVars, vars) {
+  return executeMutation(deleteReviewRef(dcOrVars, vars));
 }
 

@@ -31,8 +31,8 @@
 //   SearchMovieDescriptionUsingL2similarityData,
 // } from "@movie/dataconnect";
 
-import { getCurrentUser, GetCurrentUserData, OrderDirection, searchAll, SearchAllData, upsertUser } from "@movie/dataconnect";
-import { onAuthStateChanged, User } from "firebase/auth";
+import { GetCurrentUserData, OrderDirection, searchAll, SearchAllData } from "@movie/dataconnect";
+import { User } from "firebase/auth";
 
 // Fetch top-rated movies
 export function useTopMovies(arg0: { limit: number; orderByRating: OrderDirection; }): { data: any; isLoading: any; } {
@@ -60,17 +60,10 @@ export const handleAuthStateChange = (auth: any, setUser: (user: User | null) =>
 };
 
 // Fetch current user profile
-// TODO(mtewani): Convert this into a proper hook
 export const handleGetCurrentUser = async (): Promise<
   GetCurrentUserData["user"] | null
 > => {
-  try {
-    const response = await getCurrentUser();
-    return response.data.user;
-  } catch (error) {
-    console.error("Error fetching user profile:", error);
-    return null;
-  }
+  throw new Error("Function not implemented.");
 };
 
 // Add a movie to user's favorites
@@ -94,7 +87,7 @@ export function useAddReview({ invalidate}: { invalidate: any}): { mutate: any; 
 }
 
 // Delete a review from a movie
-export function useDeleteReview(): { mutate: any; } {
+export function useDeleteReview(arg?: { invalidate: any}): { mutate: any; } {
   throw new Error("Function not implemented.");
 }
 

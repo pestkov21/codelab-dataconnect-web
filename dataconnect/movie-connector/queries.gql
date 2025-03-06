@@ -106,8 +106,6 @@ query GetActorById($id: UUID!) @auth(level: PUBLIC) {
 
 
 # Get current authenticated user
-# TODO: Complete GetCurrentUser
-# Get user by ID
 query GetCurrentUser @auth(level: USER) {
   user(key: { id_expr: "auth.uid" }) {
     id
