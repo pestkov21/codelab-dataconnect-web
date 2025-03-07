@@ -21,16 +21,13 @@ import { useHandleDeleteReview, useHandleGetCurrentUser} from "@/lib/MovieServic
 import { MdStar } from "react-icons/md";
 import { AuthContext } from "@/lib/firebase";
 import MovieCard from "@/components/moviecard";
-import { getCurrentUserRef } from "@/lib/dataconnect-sdk";
 
 export default function MyProfilePage() {
   const navigate = useNavigate();
   const [authUser, setAuthUser] = useState<User | null>(null);
   const auth = useContext(AuthContext);
 
-  const {mutate: handleDeleteReview } = useHandleDeleteReview(
-    [getCurrentUserRef()]
-  );
+  const {mutate: handleDeleteReview } = useHandleDeleteReview();
   const { data: userData, isLoading, refetch } = useHandleGetCurrentUser(!!authUser);
   const user = userData?.user;
   useEffect(() => {
@@ -44,7 +41,6 @@ export default function MyProfilePage() {
 
     return () => unsubscribe();
   }, [navigate, auth]);
-
 
   async function deleteReview(reviewMovieId: string) {
     if (!authUser) return;

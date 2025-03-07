@@ -30,24 +30,7 @@ import {
   useHandleGetMovieById,
 } from "@/lib/MovieService";
 import MovieCard from "@/components/moviecard";
-import {
-  DateString,
-  getIfFavoritedMovieRef,
-  getMovieByIdRef,
-  User_Key,
-  UUIDString,
-} from "@/lib/dataconnect-sdk";
 
-interface UserReview {
-  id: UUIDString;
-  reviewText?: string | null;
-  reviewDate: DateString;
-  rating?: number | null;
-  user: {
-    id: string;
-    username: string;
-  } & User_Key;
-}
 
 export default function MoviePage() {
   const { id } = useParams() as { id: string };
@@ -57,19 +40,15 @@ export default function MoviePage() {
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
 
-  const [userReview, setUserReview] = useState<UserReview | null>(null);
+  const [userReview, setUserReview] = useState<any | null>(null);
   const [similarMovies, setSimilarMovies] = useState<any[]>([]);
 
   const { data, isLoading, error } = useHandleGetMovieById(id);
   const movie = data?.movie;
-  const { mutate: handleAddFavoritedMovie } = useHandleAddFavoritedMovie({
-    invalidate: [getIfFavoritedMovieRef({ movieId: id })],
-  });
-  const { mutate: handleDeleteFavoritedMovie } = useHandleDeleteFavoritedMovie({
-    invalidate: [getIfFavoritedMovieRef({ movieId: id })],
-  });
+  const { mutate: handleAddFavoritedMovie } = useHandleAddFavoritedMovie(id);
+  const { mutate: handleDeleteFavoritedMovie } = useHandleDeleteFavoritedMovie(id);
   const { mutate: handleAddReview } = useHandleAddReview(
-    [getMovieByIdRef({ id })]
+    id
   );
   const { mutate: handleDeleteReview } = useHandleDeleteReview();
   const { data: favoritedMovieData } = useHandleGetIfFavoritedMovie(

@@ -31,7 +31,7 @@
 //   SearchMovieDescriptionUsingL2similarityData,
 // } from "@movie/dataconnect";
 
-import { AddFavoritedMovieData, AddFavoritedMovieVariables, DeleteFavoritedMovieData, DeleteFavoritedMovieVariables, GetCurrentUserData, GetIfFavoritedMovieData, GetIfFavoritedMovieVariables, ListMoviesData, ListMoviesVariables, OrderDirection, searchAll, SearchAllData, upsertUser } from "@movie/dataconnect";
+import { AddFavoritedMovieData, AddFavoritedMovieVariables, DeleteFavoritedMovieData, DeleteFavoritedMovieVariables, GetCurrentUserData, getCurrentUserRef, GetIfFavoritedMovieData, getIfFavoritedMovieRef, GetIfFavoritedMovieVariables, getMovieByIdRef, ListMoviesData, ListMoviesVariables, OrderDirection, searchAll, SearchAllData, upsertUser } from "@movie/dataconnect";
 import { useAddFavoritedMovie, useAddReview, useDeleteFavoritedMovie, useDeleteReview, useGetActorById, useGetCurrentUser, useGetIfFavoritedMovie, useGetMovieById, useListMovies } from "@movie/dataconnect/react";
 import { FlattenedMutationResult, FlattenedQueryResult } from "@tanstack-query-firebase/react/data-connect";
 import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
@@ -86,24 +86,18 @@ export function useHandleGetCurrentUser(
 };
 
 // Add a movie to user's favorites
-export const useHandleAddFavoritedMovie = ({
-  invalidate,
-}: {
-  invalidate: any;
-}): UseMutationResult<
+export const useHandleAddFavoritedMovie = (id: string): UseMutationResult<
   FlattenedMutationResult<AddFavoritedMovieData, AddFavoritedMovieVariables>,
   FirebaseError,
   AddFavoritedMovieVariables
 > => {
-  return useAddFavoritedMovie({ invalidate });
+  return useAddFavoritedMovie({
+    invalidate: [getIfFavoritedMovieRef({ movieId: id })],
+  });
 };
 
 // Remove a movie from user's favorites
-export const useHandleDeleteFavoritedMovie = ({
-  invalidate,
-}: {
-  invalidate: any;
-}): UseMutationResult<
+export const useHandleDeleteFavoritedMovie = (id: string): UseMutationResult<
   FlattenedMutationResult<
     DeleteFavoritedMovieData,
     DeleteFavoritedMovieVariables
@@ -111,7 +105,9 @@ export const useHandleDeleteFavoritedMovie = ({
   FirebaseError,
   DeleteFavoritedMovieVariables
 > => {
-  return useDeleteFavoritedMovie({ invalidate });
+  return useDeleteFavoritedMovie({
+    invalidate: [getIfFavoritedMovieRef({ movieId: id })],
+  });
 };
 
 // Check if the movie is favorited by the user
@@ -126,15 +122,15 @@ export const useHandleGetIfFavoritedMovie = (
 };
 
 // Add a review to a movie
-export function useHandleAddReview(refsToInvalidate: QueryRef<unknown, unknown>[]): {
+export function useHandleAddReview(id: string): {
   mutate: any;
 } {
-  return useAddReview({ invalidate: refsToInvalidate});
+  return useAddReview({ invalidate: [getMovieByIdRef({ id })]});
 }
 
 // Delete a review from a movie
-export function useHandleDeleteReview(refsToInvalidate?: QueryRef<unknown, unknown>[]): { mutate: any; } {
- return useDeleteReview({ invalidate: refsToInvalidate});
+export function useHandleDeleteReview(): { mutate: any } {
+  return useDeleteReview({ invalidate: [getCurrentUserRef()] });
 }
 
 // Function to perform the search using the query and filters
