@@ -31,12 +31,13 @@
 //   SearchMovieDescriptionUsingL2similarityData,
 // } from "@movie/dataconnect";
 
-import { GetCurrentUserData, ListMoviesData, ListMoviesVariables, OrderDirection, searchAll, SearchAllData } from "@movie/dataconnect";
-import { useGetActorById, useGetMovieById, useListMovies } from "@movie/dataconnect/react";
-import { FlattenedQueryResult } from "@tanstack-query-firebase/react/data-connect";
-import { UseQueryResult } from "@tanstack/react-query";
+import { AddFavoritedMovieData, AddFavoritedMovieVariables, DeleteFavoritedMovieData, DeleteFavoritedMovieVariables, GetCurrentUserData, GetIfFavoritedMovieData, GetIfFavoritedMovieVariables, ListMoviesData, ListMoviesVariables, OrderDirection, searchAll, SearchAllData, upsertUser } from "@movie/dataconnect";
+import { useAddFavoritedMovie, useAddReview, useDeleteFavoritedMovie, useDeleteReview, useGetActorById, useGetCurrentUser, useGetIfFavoritedMovie, useGetMovieById, useListMovies } from "@movie/dataconnect/react";
+import { FlattenedMutationResult, FlattenedQueryResult } from "@tanstack-query-firebase/react/data-connect";
+import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
 import { FirebaseError } from "firebase/app";
-import { User } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
+import { QueryRef } from "firebase/data-connect";
 
 // Fetch top-rated movies
 export function useHandleTopMovies(limit: number, orderByRating: OrderDirection): UseQueryResult<FlattenedQueryResult<ListMoviesData, ListMoviesVariables>, FirebaseError> {
@@ -59,48 +60,81 @@ export function useHandleGetActorById(id: string): { error: any; isLoading: any;
 }
 
 // Updates user table when user signs in
-export const handleAuthStateChange = (auth: any, setUser: (user: User | null) => void) => {
-  return () => {};
+export const handleAuthStateChange = (
+  auth: any,
+  setUser: (user: User | null) => void
+) => {
+  return onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      setUser(user);
+      const username = user.email?.split("@")[0] || "anon";
+      await upsertUser({ username });
+    } else {
+      setUser(null);
+    }
+  });
 };
 
 // Fetch current user profile
-export function useHandleGetCurrentUser(enabled: boolean): { data: any, isLoading: boolean, refetch: any} {
-  return { data: {}, isLoading: false, refetch: () => {}};
+export function useHandleGetCurrentUser(
+  enabled: boolean
+): UseQueryResult<
+  FlattenedQueryResult<GetCurrentUserData, undefined>,
+  FirebaseError
+> {
+  return useGetCurrentUser({ enabled });
 };
 
 // Add a movie to user's favorites
-export const useHandleAddFavoritedMovie = ({ invalidate}: { invalidate: any}): {mutate: any} => {
-  return {
-    mutate: () => {}
-  }
-}
+export const useHandleAddFavoritedMovie = ({
+  invalidate,
+}: {
+  invalidate: any;
+}): UseMutationResult<
+  FlattenedMutationResult<AddFavoritedMovieData, AddFavoritedMovieVariables>,
+  FirebaseError,
+  AddFavoritedMovieVariables
+> => {
+  return useAddFavoritedMovie({ invalidate });
+};
 
 // Remove a movie from user's favorites
-export const useHandleDeleteFavoritedMovie =  ({ invalidate}: { invalidate: any}): {mutate: any} => {
-return {
-    mutate: () => {}
-  }
-}
+export const useHandleDeleteFavoritedMovie = ({
+  invalidate,
+}: {
+  invalidate: any;
+}): UseMutationResult<
+  FlattenedMutationResult<
+    DeleteFavoritedMovieData,
+    DeleteFavoritedMovieVariables
+  >,
+  FirebaseError,
+  DeleteFavoritedMovieVariables
+> => {
+  return useDeleteFavoritedMovie({ invalidate });
+};
 
 // Check if the movie is favorited by the user
-export const useHandleGetIfFavoritedMovie = ({ movieId }: { movieId: string}, { enabled }: { enabled: boolean}): {data: any} => {
-  return {
-    data: {},
-  };
-}
+export const useHandleGetIfFavoritedMovie = (
+  movieId: string,
+  enabled: boolean
+): UseQueryResult<
+  FlattenedQueryResult<GetIfFavoritedMovieData, GetIfFavoritedMovieVariables>,
+  FirebaseError
+> => {
+  return useGetIfFavoritedMovie({ movieId }, { enabled });
+};
 
 // Add a review to a movie
-export function useHandleAddReview({ invalidate}: { invalidate: any}): { mutate: any; } {
-  return {
-    mutate: () => {}
-  }
+export function useHandleAddReview(refsToInvalidate: QueryRef<unknown, unknown>[]): {
+  mutate: any;
+} {
+  return useAddReview({ invalidate: refsToInvalidate});
 }
 
 // Delete a review from a movie
-export function useHandleDeleteReview(arg?: { invalidate: any}): { mutate: any; } {
- return {
-    mutate: () => {}
-  }
+export function useHandleDeleteReview(refsToInvalidate?: QueryRef<unknown, unknown>[]): { mutate: any; } {
+ return useDeleteReview({ invalidate: refsToInvalidate});
 }
 
 // Function to perform the search using the query and filters

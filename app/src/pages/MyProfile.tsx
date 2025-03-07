@@ -28,9 +28,9 @@ export default function MyProfilePage() {
   const [authUser, setAuthUser] = useState<User | null>(null);
   const auth = useContext(AuthContext);
 
-  const {mutate: handleDeleteReview } = useHandleDeleteReview({
-    invalidate: [getCurrentUserRef()]
-  });
+  const {mutate: handleDeleteReview } = useHandleDeleteReview(
+    [getCurrentUserRef()]
+  );
   const { data: userData, isLoading, refetch } = useHandleGetCurrentUser(!!authUser);
   const user = userData?.user;
   useEffect(() => {
