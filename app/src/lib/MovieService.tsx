@@ -14,47 +14,88 @@
  * limitations under the License.
  */
 
-// import { listMovies, ListMoviesData, OrderDirection } from "@movie/dataconnect";
-// import { getMovieById, GetMovieByIdData } from "@movie/dataconnect";
-// import { GetActorByIdData, getActorById } from "@movie/dataconnect";
-
-// import { upsertUser } from "@movie/dataconnect";
-// import { getCurrentUser, GetCurrentUserData } from "@movie/dataconnect";
-
-// import { addFavoritedMovie, deleteFavoritedMovie, getIfFavoritedMovie } from "@movie/dataconnect";
-// import { addReview, deleteReview } from "@movie/dataconnect";
-
-// import { searchAll, SearchAllData } from "@movie/dataconnect";
-
-// import {
-//   searchMovieDescriptionUsingL2similarity,
-//   SearchMovieDescriptionUsingL2similarityData,
-// } from "@movie/dataconnect";
-
-import { AddFavoritedMovieData, AddFavoritedMovieVariables, DeleteFavoritedMovieData, DeleteFavoritedMovieVariables, GetCurrentUserData, getCurrentUserRef, GetIfFavoritedMovieData, getIfFavoritedMovieRef, GetIfFavoritedMovieVariables, getMovieByIdRef, ListMoviesData, ListMoviesVariables, OrderDirection, searchAll, SearchAllData, upsertUser } from "@movie/dataconnect";
-import { useAddFavoritedMovie, useAddReview, useDeleteFavoritedMovie, useDeleteReview, useGetActorById, useGetCurrentUser, useGetIfFavoritedMovie, useGetMovieById, useListMovies } from "@movie/dataconnect/react";
-import { FlattenedMutationResult, FlattenedQueryResult } from "@tanstack-query-firebase/react/data-connect";
+import {
+  AddFavoritedMovieData,
+  AddFavoritedMovieVariables,
+  AddReviewData,
+  AddReviewVariables,
+  DeleteFavoritedMovieData,
+  DeleteFavoritedMovieVariables,
+  GetActorByIdData,
+  GetActorByIdVariables,
+  GetCurrentUserData,
+  getCurrentUserRef,
+  GetIfFavoritedMovieData,
+  getIfFavoritedMovieRef,
+  GetIfFavoritedMovieVariables,
+  GetMovieByIdData,
+  getMovieByIdRef,
+  GetMovieByIdVariables,
+  ListMoviesData,
+  ListMoviesVariables,
+  OrderDirection,
+  searchAll,
+  SearchAllData,
+  upsertUser,
+} from "@movie/dataconnect";
+import {
+  useAddFavoritedMovie,
+  useAddReview,
+  useDeleteFavoritedMovie,
+  useDeleteReview,
+  useGetActorById,
+  useGetCurrentUser,
+  useGetIfFavoritedMovie,
+  useGetMovieById,
+  useListMovies,
+} from "@movie/dataconnect/react";
+import {
+  FlattenedMutationResult,
+  FlattenedQueryResult,
+} from "@tanstack-query-firebase/react/data-connect";
 import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
 import { FirebaseError } from "firebase/app";
 import { onAuthStateChanged, User } from "firebase/auth";
 
 // Fetch top-rated movies
-export function useHandleTopMovies(limit: number, orderByRating: OrderDirection): UseQueryResult<FlattenedQueryResult<ListMoviesData, ListMoviesVariables>, FirebaseError> {
+export function useHandleTopMovies(
+  limit: number,
+  orderByRating: OrderDirection
+): UseQueryResult<
+  FlattenedQueryResult<ListMoviesData, ListMoviesVariables>,
+  FirebaseError
+> {
   return useListMovies({ limit, orderByRating: orderByRating });
 }
 
 // Fetch latest movies
-export function useHandleLatestMovies(limit: number, orderByReleaseYear: OrderDirection): { data: any; isLoading: any; } {
-  return useListMovies({ limit, orderByReleaseYear});
+export function useHandleLatestMovies(
+  limit: number,
+  orderByReleaseYear: OrderDirection
+): UseQueryResult<
+  FlattenedQueryResult<ListMoviesData, ListMoviesVariables>,
+  FirebaseError
+> {
+  return useListMovies({ limit, orderByReleaseYear });
 }
 
 // Fetch movie details by ID
-export function useHandleGetMovieById(id: string): { data: any; isLoading: any; error: any } {
+export function useHandleGetMovieById(
+  id: string
+): UseQueryResult<
+  FlattenedQueryResult<GetMovieByIdData, GetMovieByIdVariables>,
+  FirebaseError
+> {
   return useGetMovieById({ id });
 }
 
 // Fetch actor details by ID
-export function useHandleGetActorById(id: string): { error: any; isLoading: any; data: any; } {
+export function useHandleGetActorById(
+  id: string
+): UseQueryResult<
+  FlattenedQueryResult<GetActorByIdData, GetActorByIdVariables>,
+  FirebaseError
+> {
   return useGetActorById({ id });
 }
 
@@ -82,10 +123,12 @@ export function useHandleGetCurrentUser(
   FirebaseError
 > {
   return useGetCurrentUser({ enabled });
-};
+}
 
 // Add a movie to user's favorites
-export const useHandleAddFavoritedMovie = (id: string): UseMutationResult<
+export const useHandleAddFavoritedMovie = (
+  id: string
+): UseMutationResult<
   FlattenedMutationResult<AddFavoritedMovieData, AddFavoritedMovieVariables>,
   FirebaseError,
   AddFavoritedMovieVariables
@@ -96,7 +139,9 @@ export const useHandleAddFavoritedMovie = (id: string): UseMutationResult<
 };
 
 // Remove a movie from user's favorites
-export const useHandleDeleteFavoritedMovie = (id: string): UseMutationResult<
+export const useHandleDeleteFavoritedMovie = (
+  id: string
+): UseMutationResult<
   FlattenedMutationResult<
     DeleteFavoritedMovieData,
     DeleteFavoritedMovieVariables
@@ -121,10 +166,14 @@ export const useHandleGetIfFavoritedMovie = (
 };
 
 // Add a review to a movie
-export function useHandleAddReview(id: string): {
-  mutate: any;
-} {
-  return useAddReview({ invalidate: [getMovieByIdRef({ id })]});
+export function useHandleAddReview(
+  id: string
+): UseMutationResult<
+  FlattenedMutationResult<AddReviewData, AddReviewVariables>,
+  FirebaseError,
+  AddReviewVariables
+> {
+  return useAddReview({ invalidate: [getMovieByIdRef({ id })] });
 }
 
 // Delete a review from a movie
@@ -157,7 +206,6 @@ export const handleSearchAll = async (
     return null;
   }
 };
-
 
 // Perform vector-based search for movies based on description
 export const searchMoviesByDescription = async (

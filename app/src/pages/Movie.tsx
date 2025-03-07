@@ -31,7 +31,6 @@ import {
 } from "@/lib/MovieService";
 import MovieCard from "@/components/moviecard";
 
-
 export default function MoviePage() {
   const { id } = useParams() as { id: string };
   const auth = useContext(AuthContext);
@@ -46,10 +45,9 @@ export default function MoviePage() {
   const { data, isLoading, error } = useHandleGetMovieById(id);
   const movie = data?.movie;
   const { mutate: handleAddFavoritedMovie } = useHandleAddFavoritedMovie(id);
-  const { mutate: handleDeleteFavoritedMovie } = useHandleDeleteFavoritedMovie(id);
-  const { mutate: handleAddReview } = useHandleAddReview(
-    id
-  );
+  const { mutate: handleDeleteFavoritedMovie } =
+    useHandleDeleteFavoritedMovie(id);
+  const { mutate: handleAddReview } = useHandleAddReview(id);
   const { mutate: handleDeleteReview } = useHandleDeleteReview();
   const { data: favoritedMovieData } = useHandleGetIfFavoritedMovie(
     id,
@@ -306,5 +304,3 @@ export default function MoviePage() {
     </div>
   );
 }
-
-
