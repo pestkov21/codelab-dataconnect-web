@@ -20,7 +20,7 @@
 // import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
 // import { FirebaseError } from "firebase/app";
 
-import { GetCurrentUserData, OrderDirection, searchAll, SearchAllData } from "@movie/dataconnect";
+import { OrderDirection } from "@movie/dataconnect";
 import { User } from "firebase/auth";
 
 // Fetch top-rated movies
@@ -104,22 +104,8 @@ export const handleSearchAll = async (
   minRating: number,
   maxRating: number,
   genre: string
-): Promise<SearchAllData | null> => {
-  try {
-    const response = await searchAll({
-      input: searchQuery,
-      minYear,
-      maxYear,
-      minRating,
-      maxRating,
-      genre,
-    });
-
-    return response.data;
-  } catch (error) {
-    console.error("Error performing search:", error);
-    return null;
-  }
+): Promise<any> => {
+  return null;
 };
 
 

@@ -32,8 +32,6 @@ import {
 import MovieCard from "@/components/moviecard";
 import {
   DateString,
-  getIfFavoritedMovieRef,
-  getMovieByIdRef,
   User_Key,
   UUIDString,
 } from "@/lib/dataconnect-sdk";
