@@ -37,7 +37,6 @@ import { FlattenedMutationResult, FlattenedQueryResult } from "@tanstack-query-f
 import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
 import { FirebaseError } from "firebase/app";
 import { onAuthStateChanged, User } from "firebase/auth";
-import { QueryRef } from "firebase/data-connect";
 
 // Fetch top-rated movies
 export function useHandleTopMovies(limit: number, orderByRating: OrderDirection): UseQueryResult<FlattenedQueryResult<ListMoviesData, ListMoviesVariables>, FirebaseError> {
