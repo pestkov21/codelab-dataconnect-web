@@ -28,7 +28,7 @@ export default function ActorPage() {
   const actorId = id || '';
   const [, setAuthUser] = useState<User | null>(null);
 
-  const { error, isLoading, data } = useHandleGetActorById({ id: actorId });
+  const { error, isLoading, data } = useHandleGetActorById(actorId);
   const actor = data?.actor;
 
   useEffect(() => {

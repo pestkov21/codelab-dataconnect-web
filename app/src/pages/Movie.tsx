@@ -60,21 +60,15 @@ export default function MoviePage() {
   const [userReview, setUserReview] = useState<UserReview | null>(null);
   const [similarMovies, setSimilarMovies] = useState<any[]>([]);
 
-  const { data, isLoading, error } = useHandleGetMovieById({ id });
+  const { data, isLoading, error } = useHandleGetMovieById(id);
   const movie = data?.movie;
-  const { mutate: handleAddFavoritedMovie } = useHandleAddFavoritedMovie({
-    invalidate: [getIfFavoritedMovieRef({ movieId: id })],
-  });
-  const { mutate: handleDeleteFavoritedMovie } = useHandleDeleteFavoritedMovie({
-    invalidate: [getIfFavoritedMovieRef({ movieId: id })],
-  });
-  const { mutate: handleAddReview } = useHandleAddReview({
-    invalidate: [getMovieByIdRef({ id })],
-  });
+  const { mutate: handleAddFavoritedMovie } = useHandleAddFavoritedMovie(id);
+  const { mutate: handleDeleteFavoritedMovie } = useHandleDeleteFavoritedMovie(id);
+  const { mutate: handleAddReview } = useHandleAddReview(id);
   const { mutate: handleDeleteReview } = useHandleDeleteReview();
   const { data: favoritedMovieData } = useHandleGetIfFavoritedMovie(
-    { movieId: id },
-    { enabled: !!authUser }
+   id ,
+    !!authUser 
   );
   const isFavorited = !!favoritedMovieData?.favorite_movie;
 

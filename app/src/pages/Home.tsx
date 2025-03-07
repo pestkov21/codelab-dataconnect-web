@@ -20,8 +20,8 @@ import { OrderDirection } from '@/lib/dataconnect-sdk';
 import { useHandleLatestMovies, useHandleTopMovies } from '@/lib/MovieService';
 
 export default function HomePage() {
-  const { data: topMoviesData, isLoading: topMoviesLoading } = useHandleTopMovies({ limit: 10, orderByRating: OrderDirection.DESC });
-  const { data: latestMoviesData, isLoading: latestMoviesLoading } = useHandleLatestMovies({ limit: 10, orderByReleaseYear: OrderDirection.DESC });
+  const { data: topMoviesData, isLoading: topMoviesLoading } = useHandleTopMovies(10, OrderDirection.DESC );
+  const { data: latestMoviesData, isLoading: latestMoviesLoading } = useHandleLatestMovies(10, OrderDirection.DESC);
 
   if(topMoviesLoading || latestMoviesLoading) {
     return <div>Loading...</div>

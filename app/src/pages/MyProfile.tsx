@@ -17,22 +17,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged, User } from "firebase/auth";
-import { useHandleDeleteReview} from "@/lib/MovieService";
+import { useHandleDeleteReview, useHandleGetCurrentUser} from "@/lib/MovieService";
 import { MdStar } from "react-icons/md";
 import { AuthContext } from "@/lib/firebase";
 import MovieCard from "@/components/moviecard";
-import { getCurrentUserRef } from "@/lib/dataconnect-sdk";
-import { useGetCurrentUser } from "@/lib/dataconnect-sdk/react";
 
 export default function MyProfilePage() {
   const navigate = useNavigate();
   const [authUser, setAuthUser] = useState<User | null>(null);
   const auth = useContext(AuthContext);
 
-  const {mutate: handleDeleteReview } = useHandleDeleteReview({
-    invalidate: [getCurrentUserRef()]
-  });
-  const { data: userData, isLoading, refetch } = useGetCurrentUser({ enabled: !!authUser});
+  const {mutate: handleDeleteReview } = useHandleDeleteReview();
+  const { data: userData, isLoading, refetch } = useHandleGetCurrentUser(!!authUser);
   const user = userData?.user;
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
