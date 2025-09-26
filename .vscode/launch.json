@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        
+        {
+            "type": "chrome",
+            "name": "https://studio.firebase.google.com/studio-584823639",
+            "request": "launch",
+            "url": "https://studio.firebase.google.com/studio-584823639"
+        }
+    ]
+}
