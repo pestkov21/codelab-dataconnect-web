@@ -1,16 +1,20 @@
-I0926 14:10:03.379415    5843 load.go:31] Reloading schema and connectors...
-I0926 14:10:03.430454    5843 control.go:94] [/emulator/your-service-id ec38] UpdateResources(): done
+I0926 14:26:48.261934   15405 load.go:31] Reloading schema and connectors...
+I0926 14:26:48.282343   15405 control.go:94] [/emulator/your-service-id 4ea4] UpdateResources(): done
 Schema: sources: schema/schema.gql [1566B] 
 Connector "movie-connector": sources: movie-connector/mutations.gql [2253B] movie-connector/queries.gql [3733B] 
-I0926 14:10:03.469999    5843 codegen.go:82] [connector "movie-connector" javascriptSdk] Generating sources into "/workspaces/codelab-dataconnect-web/app/src/lib/dataconnect-sdk"
-I0926 14:10:03.475376    5843 collector.go:107] schema extensions wrote into "/workspaces/codelab-dataconnect-web/dataconnect/.dataconnect/schema"
+I0926 14:26:48.298968   15405 codegen.go:82] [connector "movie-connector" javascriptSdk] Generating sources into "/workspaces/codelab-dataconnect-web/app/src/lib/dataconnect-sdk"
+I0926 14:26:48.301727   15405 codegen.go:82] [connector "movie-connector" javascriptSdk] Generating sources into "/workspaces/codelab-dataconnect-web/app/src/dataconnect-generated"
+I0926 14:26:48.307478   15405 collector.go:107] schema extensions wrote into "/workspaces/codelab-dataconnect-web/dataconnect/.dataconnect/schema"
 Generated sources: prelude.gql [73251B] 
-I0926 14:10:03.477721    5843 collector.go:107] connector "movie-connector" javascriptSdk wrote into "/workspaces/codelab-dataconnect-web/app/src/lib/dataconnect-sdk"
-Generated sources: index.d.ts [248B] esm/index.esm.js [126B] esm/package.json [17B] index.cjs.js [161B] package.json [641B] README.md [2769B] 
-I0926 14:10:03.479328    5843 installsdk.go:55] Package @movie/dataconnect is already installed. Skipping installation
-I0926 14:10:03.479577    5843 load.go:109] Finished reloading
-I0926 14:10:03.479996    5843 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:9399
-I0926 14:10:03.480067    5843 dev.go:102] Listening on address (HTTP + gRPC): [::1]:9399
-I0926 14:10:07.374312    5843 control.go:94] [/emulator/your-service-id ca9f] UpdateResources(): done
+I0926 14:26:48.308095   15405 collector.go:107] connector "movie-connector" javascriptSdk wrote into "/workspaces/codelab-dataconnect-web/app/src/lib/dataconnect-sdk"
+Generated sources: README.md [2769B] index.d.ts [248B] esm/index.esm.js [126B] esm/package.json [17B] index.cjs.js [161B] package.json [641B] 
+I0926 14:26:48.308415   15405 installsdk.go:55] Package @movie/dataconnect is already installed. Skipping installation
+I0926 14:26:48.309484   15405 collector.go:107] connector "movie-connector" javascriptSdk wrote into "/workspaces/codelab-dataconnect-web/app/src/dataconnect-generated"
+Generated sources: index.cjs.js [161B] package.json [871B] README.md [2908B] react/index.d.ts [228B] react/index.cjs.js [0B] react/esm/index.esm.js [0B] esm/index.esm.js [126B] react/package.json [468B] react/esm/package.json [17B] react/README.md [5494B] index.d.ts [248B] esm/package.json [17B] 
+I0926 14:26:48.309948   15405 installsdk.go:55] Package @dataconnect/generated is already installed. Skipping installation
+I0926 14:26:48.309976   15405 load.go:109] Finished reloading
+I0926 14:26:48.310175   15405 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:9399
+I0926 14:26:48.310230   15405 dev.go:102] Listening on address (HTTP + gRPC): [::1]:9399
+I0926 14:26:52.342614   15405 control.go:94] [/emulator/your-service-id 5457] UpdateResources(): done
 Schema: sources: schema/schema.gql [1566B] 
 Connector "movie-connector": sources: movie-connector/mutations.gql [2253B] movie-connector/queries.gql [3733B] 
