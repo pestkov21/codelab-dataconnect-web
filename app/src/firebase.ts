@@ -1,9 +1,10 @@
 import { initializeApp } from "firebase/app";
 import { connectDataConnectEmulator, getDataConnect } from 'firebase/data-connect';
 import { connectorConfig } from '@dataconnect/generated';
+import { firebaseConfig } from './firebase-config';
+import { listMovies, listAllMoviesRef, subscribe, executeMutation, createMovieRef, getOldestMovie, AspectRatio } from '@dataconnect/generated';
 
 // ...inne opcjonalne pola...
-};
 
 const app = initializeApp(firebaseConfig);
 
